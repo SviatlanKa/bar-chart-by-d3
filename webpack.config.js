@@ -16,6 +16,9 @@ module.exports = {
         template: "./src/index.html"
       })
   ],
+  resolve: {
+    extensions: ['*', '.js']
+  },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
@@ -28,7 +31,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env']
+            presets: ['@babel/preset-env']
           }
         }
       },
