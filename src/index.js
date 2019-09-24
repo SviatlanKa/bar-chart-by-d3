@@ -24,7 +24,7 @@ const barChart = d3.select('#bar-chart')
 
 const defs = barChart.append("defs");
 
-const filter = defs.append("filter")
+defs.append("filter")
     .attr("id", "shadow")
     .append("feDropShadow")
     .attr("dx", -0.2)
@@ -40,7 +40,7 @@ d3.json(url).then(data => {
 
     data.data.forEach(el => {
         const item = {
-            date: new Date(el[0]),
+            date: el[0],
             value: el[1]
         };
         dataset.push(item);
@@ -48,7 +48,7 @@ d3.json(url).then(data => {
 
     const maxVal = d3.max(dataset, d => d.value);
     const scaleX = d3.scaleTime()
-                    .domain([d3.min(dataset, d => d.date), d3.max(dataset, d => d.date)])
+                    .domain([d3.min(dataset, d => new Date(d.date)), d3.max(dataset, d => new Date(d.date))])
                     .range([0, svgWidth - paddingHoriz]);
     const scaleY = d3.scaleLinear()
                     .domain([0, maxVal])
@@ -75,9 +75,9 @@ d3.json(url).then(data => {
         .enter()
         .append("rect")
         .attr("class", "bar")
-        .property("data-date", d => d.date)
-        .property("data-gdp", d => d.value)
-        .attr("x", d => scaleX(d.date))
+        .attr("data-date", d => d.date)
+        .attr("data-gdp", d => d.value)
+        .attr("x", d => scaleX(new Date(d.date)))
         .attr("y", d => scaleY(d.value))
         .attr("width", (svgWidth - paddingHoriz) / dataset.length)
         .attr("height", d => svgHeight - paddingVert - scaleY(d.value))
@@ -86,10 +86,11 @@ d3.json(url).then(data => {
             tooltip.transition()
                     .duration(350)
                     .style("opacity", .6);
-            tooltip.html("<span>" + d3.timeFormat("%B %Y")(d.date) + "<br>"
+            tooltip.html("<span>" + d3.timeFormat("%B %Y")(new Date(d.date)) + "<br>"
                 + d3.format("$,")(d.value) + " Billion" + "</span>")
                     .style("left", d3.event.pageX + 15 + "px")
-                    .style("top", d3.event.pageY - 75 + "px");
+                    .style("top", d3.event.pageY - 75 + "px")
+                    .attr("data-date", d.date);
         })
         .on("mouseout", (d) => {
             tooltip.transition()
