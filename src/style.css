@@ -9,11 +9,13 @@ body {
     justify-content: center;
     align-items: center;
     font-family: 'Roboto', sans-serif;
+    background-color: #ABB2B9;
 }
 
 #main {
     display: flex;
     flex-direction: column;
+    background-color: white;
     box-shadow: 1px 1px 16px 5px rgba(0,0,0,0.72);
 }
 
@@ -21,20 +23,27 @@ body {
     margin: 1vw 0;
     font-size: 2.5em;
     text-align: center;
+    text-shadow: 2px 2px 2px #828282;
 }
 
 .bar {
     stroke-width: 1px;
-    stroke: darkred;
-    fill: lightgreen;
+    stroke: #154360;
+    fill: #1F618D;
 }
 
 .bar:hover {
-    fill: red;
+    fill: #EBF5FB;
 }
 
-.tip {
+#tooltip {
+    position: absolute;
+    text-align: center;
     width: fit-content;
     height: fit-content;
-    background-color: rgba(77,166,255,.7);
+    padding: .5vw;
+    font-size: .9em;
+    font-weight: bold;
+    background-color: white;
+    box-shadow: 1px 1px 8px 5px rgba(0,0,0,0.72);
 }
